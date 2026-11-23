@@ -9,92 +9,119 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ARouteRouteImport } from './routes/_a/route'
-import { Route as AIndexRouteImport } from './routes/_a/index'
-import { Route as ANewRouteImport } from './routes/_a/new'
+import { Route as BlogRouteRouteImport } from './routes/_blog/route'
+import { Route as BlogIndexRouteImport } from './routes/_blog/index'
+import { Route as BlogArticulosDisenoParaTodosRouteImport } from './routes/_blog/articulos/diseno-para-todos'
+import { Route as BlogArticulosTipografiaYLecturaRouteImport } from './routes/_blog/articulos/tipografia-y-lectura'
 
-const ARouteRoute = ARouteRouteImport.update({
-  id: '/_a',
+const BlogRouteRoute = BlogRouteRouteImport.update({
+  id: '/_blog',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AIndexRoute = AIndexRouteImport.update({
+const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => ARouteRoute,
+  getParentRoute: () => BlogRouteRoute,
 } as any)
-const ANewRoute = ANewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => ARouteRoute,
-} as any)
+const BlogArticulosDisenoParaTodosRoute =
+  BlogArticulosDisenoParaTodosRouteImport.update({
+    id: '/articulos/diseno-para-todos',
+    path: '/articulos/diseno-para-todos',
+    getParentRoute: () => BlogRouteRoute,
+  } as any)
+const BlogArticulosTipografiaYLecturaRoute =
+  BlogArticulosTipografiaYLecturaRouteImport.update({
+    id: '/articulos/tipografia-y-lectura',
+    path: '/articulos/tipografia-y-lectura',
+    getParentRoute: () => BlogRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AIndexRoute
-  '/new': typeof ANewRoute
+  '/': typeof BlogIndexRoute
+  '/articulos/diseno-para-todos': typeof BlogArticulosDisenoParaTodosRoute
+  '/articulos/tipografia-y-lectura': typeof BlogArticulosTipografiaYLecturaRoute
 }
 export interface FileRoutesByTo {
-  '/new': typeof ANewRoute
-  '/': typeof AIndexRoute
+  '/': typeof BlogIndexRoute
+  '/articulos/diseno-para-todos': typeof BlogArticulosDisenoParaTodosRoute
+  '/articulos/tipografia-y-lectura': typeof BlogArticulosTipografiaYLecturaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_a': typeof ARouteRouteWithChildren
-  '/_a/new': typeof ANewRoute
-  '/_a/': typeof AIndexRoute
+  '/_blog': typeof BlogRouteRouteWithChildren
+  '/_blog/': typeof BlogIndexRoute
+  '/_blog/articulos/diseno-para-todos': typeof BlogArticulosDisenoParaTodosRoute
+  '/_blog/articulos/tipografia-y-lectura': typeof BlogArticulosTipografiaYLecturaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/new'
+  fullPaths:
+    '/' | '/articulos/diseno-para-todos' | '/articulos/tipografia-y-lectura'
   fileRoutesByTo: FileRoutesByTo
-  to: '/new' | '/'
-  id: '__root__' | '/_a' | '/_a/new' | '/_a/'
+  to: '/' | '/articulos/diseno-para-todos' | '/articulos/tipografia-y-lectura'
+  id:
+    | '__root__'
+    | '/_blog'
+    | '/_blog/'
+    | '/_blog/articulos/diseno-para-todos'
+    | '/_blog/articulos/tipografia-y-lectura'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  ARouteRoute: typeof ARouteRouteWithChildren
+  BlogRouteRoute: typeof BlogRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_a': {
-      id: '/_a'
+    '/_blog': {
+      id: '/_blog'
       path: ''
       fullPath: '/'
-      preLoaderRoute: typeof ARouteRouteImport
+      preLoaderRoute: typeof BlogRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_a/': {
-      id: '/_a/'
+    '/_blog/': {
+      id: '/_blog/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof AIndexRouteImport
-      parentRoute: typeof ARouteRoute
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof BlogRouteRoute
     }
-    '/_a/new': {
-      id: '/_a/new'
-      path: '/new'
-      fullPath: '/new'
-      preLoaderRoute: typeof ANewRouteImport
-      parentRoute: typeof ARouteRoute
+    '/_blog/articulos/diseno-para-todos': {
+      id: '/_blog/articulos/diseno-para-todos'
+      path: '/articulos/diseno-para-todos'
+      fullPath: '/articulos/diseno-para-todos'
+      preLoaderRoute: typeof BlogArticulosDisenoParaTodosRouteImport
+      parentRoute: typeof BlogRouteRoute
+    }
+    '/_blog/articulos/tipografia-y-lectura': {
+      id: '/_blog/articulos/tipografia-y-lectura'
+      path: '/articulos/tipografia-y-lectura'
+      fullPath: '/articulos/tipografia-y-lectura'
+      preLoaderRoute: typeof BlogArticulosTipografiaYLecturaRouteImport
+      parentRoute: typeof BlogRouteRoute
     }
   }
 }
 
-interface ARouteRouteChildren {
-  ANewRoute: typeof ANewRoute
-  AIndexRoute: typeof AIndexRoute
+interface BlogRouteRouteChildren {
+  BlogIndexRoute: typeof BlogIndexRoute
+  BlogArticulosDisenoParaTodosRoute: typeof BlogArticulosDisenoParaTodosRoute
+  BlogArticulosTipografiaYLecturaRoute: typeof BlogArticulosTipografiaYLecturaRoute
 }
 
-const ARouteRouteChildren: ARouteRouteChildren = {
-  ANewRoute: ANewRoute,
-  AIndexRoute: AIndexRoute,
+const BlogRouteRouteChildren: BlogRouteRouteChildren = {
+  BlogIndexRoute: BlogIndexRoute,
+  BlogArticulosDisenoParaTodosRoute: BlogArticulosDisenoParaTodosRoute,
+  BlogArticulosTipografiaYLecturaRoute: BlogArticulosTipografiaYLecturaRoute,
 }
 
-const ARouteRouteWithChildren =
-  ARouteRoute._addFileChildren(ARouteRouteChildren)
+const BlogRouteRouteWithChildren = BlogRouteRoute._addFileChildren(
+  BlogRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
-  ARouteRoute: ARouteRouteWithChildren,
+  BlogRouteRoute: BlogRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
