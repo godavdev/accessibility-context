@@ -9,50 +9,92 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as ARouteRouteImport } from './routes/_a/route'
+import { Route as AIndexRouteImport } from './routes/_a/index'
+import { Route as ANewRouteImport } from './routes/_a/new'
 
-const IndexRoute = IndexRouteImport.update({
+const ARouteRoute = ARouteRouteImport.update({
+  id: '/_a',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AIndexRoute = AIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ARouteRoute,
+} as any)
+const ANewRoute = ANewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => ARouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AIndexRoute
+  '/new': typeof ANewRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/new': typeof ANewRoute
+  '/': typeof AIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_a': typeof ARouteRouteWithChildren
+  '/_a/new': typeof ANewRoute
+  '/_a/': typeof AIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/new' | '/'
+  id: '__root__' | '/_a' | '/_a/new' | '/_a/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  ARouteRoute: typeof ARouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_a': {
+      id: '/_a'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ARouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_a/': {
+      id: '/_a/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AIndexRouteImport
+      parentRoute: typeof ARouteRoute
+    }
+    '/_a/new': {
+      id: '/_a/new'
+      path: '/new'
+      fullPath: '/new'
+      preLoaderRoute: typeof ANewRouteImport
+      parentRoute: typeof ARouteRoute
     }
   }
 }
 
+interface ARouteRouteChildren {
+  ANewRoute: typeof ANewRoute
+  AIndexRoute: typeof AIndexRoute
+}
+
+const ARouteRouteChildren: ARouteRouteChildren = {
+  ANewRoute: ANewRoute,
+  AIndexRoute: AIndexRoute,
+}
+
+const ARouteRouteWithChildren =
+  ARouteRoute._addFileChildren(ARouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  ARouteRoute: ARouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
