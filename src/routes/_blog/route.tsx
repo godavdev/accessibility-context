@@ -72,9 +72,11 @@ function BlogLayout() {
           </div>
         </header>
 
+        <div className=" page-content  flex flex-1 flex-col justify-center items-center">
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
           <Outlet />
         </main>
+        </div>
 
         <footer className="border-t border-border bg-muted/40">
           <div className="mx-auto flex w-full max-w-5xl flex-col items-start justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:px-6">

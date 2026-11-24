@@ -205,14 +205,60 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
     position: relative;
   }
-  button:not(:disabled), [role="button"]:not(:disabled) {
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
   html {
     @apply font-sans;
   }
 }
+
+.page-content {
+  view-transition-name: page-content;
+}
+
+::view-transition-old(root)
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-group(page-content) {
+  animation-duration: 0.5s;
+}
+
+::view-transition-old(page-content) {
+  animation: slide-out 0.5s ease-in-out forwards;
+}
+
+::view-transition-new(page-content) {
+  animation: slide-in 0.5s ease-in-out forwards;
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
