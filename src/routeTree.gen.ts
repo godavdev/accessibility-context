@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as BlogRouteRouteImport } from './routes/_blog/route'
 import { Route as BlogIndexRouteImport } from './routes/_blog/index'
+import { Route as ProductsIndexRouteImport } from './routes/products/index'
+import { Route as ProductsProductIdRouteImport } from './routes/products/$productId'
 import { Route as BlogArticulosDisenoParaTodosRouteImport } from './routes/_blog/articulos/diseno-para-todos'
 import { Route as BlogArticulosTipografiaYLecturaRouteImport } from './routes/_blog/articulos/tipografia-y-lectura'
 
@@ -22,6 +24,16 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => BlogRouteRoute,
+} as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
+  id: '/products/$productId',
+  path: '/products/$productId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogArticulosDisenoParaTodosRoute =
   BlogArticulosDisenoParaTodosRouteImport.update({
@@ -38,37 +50,56 @@ const BlogArticulosTipografiaYLecturaRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof BlogIndexRoute
+  '/products/$productId': typeof ProductsProductIdRoute
+  '/products/': typeof ProductsIndexRoute
   '/articulos/diseno-para-todos': typeof BlogArticulosDisenoParaTodosRoute
   '/articulos/tipografia-y-lectura': typeof BlogArticulosTipografiaYLecturaRoute
 }
 export interface FileRoutesByTo {
+  '/products/$productId': typeof ProductsProductIdRoute
   '/': typeof BlogIndexRoute
+  '/products': typeof ProductsIndexRoute
   '/articulos/diseno-para-todos': typeof BlogArticulosDisenoParaTodosRoute
   '/articulos/tipografia-y-lectura': typeof BlogArticulosTipografiaYLecturaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_blog': typeof BlogRouteRouteWithChildren
+  '/products/$productId': typeof ProductsProductIdRoute
   '/_blog/': typeof BlogIndexRoute
+  '/products/': typeof ProductsIndexRoute
   '/_blog/articulos/diseno-para-todos': typeof BlogArticulosDisenoParaTodosRoute
   '/_blog/articulos/tipografia-y-lectura': typeof BlogArticulosTipografiaYLecturaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/articulos/diseno-para-todos' | '/articulos/tipografia-y-lectura'
+    | '/'
+    | '/products/$productId'
+    | '/products/'
+    | '/articulos/diseno-para-todos'
+    | '/articulos/tipografia-y-lectura'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/articulos/diseno-para-todos' | '/articulos/tipografia-y-lectura'
+  to:
+    | '/products/$productId'
+    | '/'
+    | '/products'
+    | '/articulos/diseno-para-todos'
+    | '/articulos/tipografia-y-lectura'
   id:
     | '__root__'
     | '/_blog'
+    | '/products/$productId'
     | '/_blog/'
+    | '/products/'
     | '/_blog/articulos/diseno-para-todos'
     | '/_blog/articulos/tipografia-y-lectura'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   BlogRouteRoute: typeof BlogRouteRouteWithChildren
+  ProductsProductIdRoute: typeof ProductsProductIdRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -86,6 +117,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof BlogRouteRoute
+    }
+    '/products/': {
+      id: '/products/'
+      path: '/products'
+      fullPath: '/products/'
+      preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$productId': {
+      id: '/products/$productId'
+      path: '/products/$productId'
+      fullPath: '/products/$productId'
+      preLoaderRoute: typeof ProductsProductIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_blog/articulos/diseno-para-todos': {
       id: '/_blog/articulos/diseno-para-todos'
@@ -122,6 +167,8 @@ const BlogRouteRouteWithChildren = BlogRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   BlogRouteRoute: BlogRouteRouteWithChildren,
+  ProductsProductIdRoute: ProductsProductIdRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

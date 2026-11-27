@@ -5,10 +5,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Keep the font utilities available even when applied dynamically */
 @source inline("font-dyslexic font-dyslexic-alta font-dyslexic-mono");
 
-/* OpenDyslexic */
 @font-face {
   font-family: "OpenDyslexic";
   src: url("/OpenDyslexic-Regular.otf") format("opentype");
@@ -41,7 +39,6 @@
   font-display: swap;
 }
 
-/* OpenDyslexic Alta */
 @font-face {
   font-family: "OpenDyslexicAlta";
   src: url("/OpenDyslexicAlta-Regular.otf") format("opentype");
@@ -74,7 +71,6 @@
   font-display: swap;
 }
 
-/* OpenDyslexic Mono */
 @font-face {
   font-family: "OpenDyslexicMono";
   src: url("/OpenDyslexicMono-Regular.otf") format("opentype");
@@ -225,9 +221,13 @@
   view-transition-name: page-content;
 }
 
-::view-transition-old(root)
+::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.5s;
 }
 
 ::view-transition-group(page-content) {

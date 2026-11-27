@@ -1,5 +1,4 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
 interface AccessibilityStore {
   isDyslexicMode: boolean
   toggleDyslexicMode: () => void
@@ -12,7 +11,6 @@ interface AccessibilityStore {
 }
 
 export const useAccessibilityStore = create<AccessibilityStore>(
-  // persist(
   (set) => ({
     isDyslexicMode: false,
     toggleDyslexicMode: () =>
@@ -26,6 +24,4 @@ export const useAccessibilityStore = create<AccessibilityStore>(
     maskGuide: false,
     toggleMaskGuide: () => set((state) => ({ maskGuide: !state.maskGuide })),
   }),
-  // { name: "accessibility-store" },
-  // ),
 )
